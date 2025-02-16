@@ -69,3 +69,65 @@ SquadPulse is a comprehensive health monitoring system designed specifically for
    ```
 
 ## Project Structure
+
+squadpulse/
+├── src/
+│ ├── components/
+│ │ ├── admin/
+│ │ │ └── graphs/
+│ │ ├── user/
+│ │ │ └── dashboard/
+│ │ └── sidebar/
+│ ├── store/
+│ │ └── actions/
+│ ├── assets/
+│ └── App.js
+├── public/
+└── package.json
+
+
+
+## Usage
+
+### Admin Dashboard
+1. Access the admin panel through `/admin/graphs`
+2. View squad-wide health metrics
+3. Monitor individual soldier performance
+4. Receive alerts for health anomalies
+
+### User Dashboard
+1. Access personal dashboard through `/dashboard`
+2. View personal health metrics
+3. Track daily activity
+4. Monitor sleep patterns
+
+## Screenshots
+
+![Admin Dashboard](path_to_admin_screenshot.png)
+*Admin Dashboard showing squad health analytics*
+
+![User Dashboard](path_to_user_screenshot.png)
+*User Dashboard showing personal health metrics*
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+- Chart.js for data visualization
+- React team for the amazing framework
+- Military health monitoring standards and guidelines
+
+
+## Future Enhancements
+
+- Enhanced alert system
