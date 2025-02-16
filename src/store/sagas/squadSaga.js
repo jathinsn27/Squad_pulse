@@ -13,7 +13,7 @@ import transformDataToSquads from '../transformData';
 
 
 const fetchSquadsFromApi = () => {
-  return axios.get('https://435b-2607-f6d0-ced-5b4-d8ee-7f36-aa67-3099.ngrok-free.app/health_data/range?i=0&j=20', {
+  return axios.get('https://3367-2607-f6d0-ced-5b4-d8ee-7f36-aa67-3099.ngrok-free.app/health_data/range?i=0&j=20', {
     headers: {
       'Content-Type': 'application/json',
       'ngrok-skip-browser-warning': 'true',
