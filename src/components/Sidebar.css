@@ -1,0 +1,65 @@
+.sidebar {
+  width: 250px;
+  background-color: white;
+  height: 100vh;
+  border-right: 1px solid #e1e4e8;
+  padding: 20px 0;
+}
+
+.sidebar-brand {
+  padding: 0 24px;
+  margin-bottom: 24px;
+}
+
+.sidebar-brand h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1f36;
+}
+
+.api-tag {
+  font-size: 12px;
+  background-color: #e6f0ff;
+  color: #0066ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 24px;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.nav-item:hover {
+  background-color: #f7fafc;
+  color: #0066ff;
+}
+
+.nav-item.active {
+  background-color: #f0f9ff;
+  color: #0066ff;
+}
+
+.nav-item .icon {
+  margin-right: 12px;
+  font-size: 16px;
+} 
