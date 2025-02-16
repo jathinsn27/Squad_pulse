@@ -6,6 +6,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import SquadDetails from './SquadDetails';
 import './Graph.css';
 
 ChartJS.register(
@@ -16,6 +17,7 @@ ChartJS.register(
 
 const Graphs = () => {
   const [activePage, setActivePage] = useState(1);
+  const [selectedSquad, setSelectedSquad] = useState(null);
 
   const squadData = [
     {
@@ -24,7 +26,14 @@ const Graphs = () => {
       heartHealth: {
         normal: 15,
         irregular: 5,
-        abnormal: 3
+        abnormal: 3,
+        soldiers: [
+          { name: "John Doe", bloodO2: 98, heartRate: 72, status: "normal" },
+          { name: "Jane Smith", bloodO2: 95, heartRate: 82, status: "irregular" },
+          { name: "Mike Johnson", bloodO2: 92, heartRate: 95, status: "abnormal" },
+          { name: "Sarah Wilson", bloodO2: 99, heartRate: 70, status: "normal" },
+          { name: "Tom Brown", bloodO2: 97, heartRate: 75, status: "normal" }
+        ]
       }
     },
     {
@@ -33,7 +42,14 @@ const Graphs = () => {
       heartHealth: {
         normal: 12,
         irregular: 6,
-        abnormal: 4
+        abnormal: 4,
+        soldiers: [
+          { name: "Alex Turner", bloodO2: 96, heartRate: 68, status: "normal" },
+          { name: "Emma Davis", bloodO2: 94, heartRate: 88, status: "irregular" },
+          { name: "Chris Martin", bloodO2: 91, heartRate: 98, status: "abnormal" },
+          { name: "Lisa Anderson", bloodO2: 93, heartRate: 86, status: "irregular" },
+          { name: "David Wilson", bloodO2: 97, heartRate: 71, status: "normal" }
+        ]
       }
     },
     {
@@ -42,7 +58,14 @@ const Graphs = () => {
       heartHealth: {
         normal: 18,
         irregular: 3,
-        abnormal: 2
+        abnormal: 2,
+        soldiers: [
+          { name: "Ryan Cooper", bloodO2: 99, heartRate: 70, status: "normal" },
+          { name: "Emily White", bloodO2: 98, heartRate: 73, status: "normal" },
+          { name: "James Taylor", bloodO2: 91, heartRate: 96, status: "abnormal" },
+          { name: "Sophie Brown", bloodO2: 97, heartRate: 74, status: "normal" },
+          { name: "Daniel Lee", bloodO2: 95, heartRate: 84, status: "irregular" }
+        ]
       }
     },
     {
@@ -51,7 +74,14 @@ const Graphs = () => {
       heartHealth: {
         normal: 14,
         irregular: 4,
-        abnormal: 5
+        abnormal: 5,
+        soldiers: [
+          { name: "Oliver Smith", bloodO2: 98, heartRate: 71, status: "normal" },
+          { name: "Ava Johnson", bloodO2: 92, heartRate: 94, status: "abnormal" },
+          { name: "William Davis", bloodO2: 94, heartRate: 85, status: "irregular" },
+          { name: "Mia Wilson", bloodO2: 91, heartRate: 97, status: "abnormal" },
+          { name: "Henry Taylor", bloodO2: 97, heartRate: 73, status: "normal" }
+        ]
       }
     }
   ];
@@ -96,6 +126,10 @@ const Graphs = () => {
     setActivePage(currentPage);
   };
 
+  if (selectedSquad) {
+    return <SquadDetails squad={selectedSquad} onBack={() => setSelectedSquad(null)} />;
+  }
+
   return (
     <div className="graphs-page">
       <h1>Squad Health Analytics</h1>
@@ -106,13 +140,17 @@ const Graphs = () => {
             <div key={squad.id} className="graph-card">
               <h2>{squad.title}</h2>
               <div className="chart-container">
-              <h3 className="chart-title">Heart Health</h3>
-              <div className="pie-chart-container">
-                <Pie 
-                  data={getPieChartData(squad)}
-                  options={pieOptions}
-                />
-              </div>
+                <h3 className="chart-title">Heart Health</h3>
+                <div 
+                  className="pie-chart-container"
+                  onClick={() => setSelectedSquad(squad)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <Pie 
+                    data={getPieChartData(squad)}
+                    options={pieOptions}
+                  />
+                </div>
               </div>
             </div>
           ))}

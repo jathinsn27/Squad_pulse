@@ -1,0 +1,85 @@
+.details-page {
+    padding: 2rem;
+    height: calc(100vh - 40px);
+    background-color: #f5f5f5;
+  }
+  
+  .details-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .details-header h2 {
+    color: #333;
+    margin: 0;
+  }
+  
+  .back-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .back-button:hover {
+    color: #0056b3;
+  }
+  
+  .soldiers-table {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  th {
+    font-weight: 600;
+    color: #666;
+  }
+  
+  tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  
+  .status-badge.normal {
+    background-color: #E8F5E9;
+    color: #4CAF50;
+  }
+  
+  .status-badge.irregular {
+    background-color: #FFF3E0;
+    color: #FFC107;
+  }
+  
+  .status-badge.abnormal {
+    background-color: #FFEBEE;
+    color: #F44336;
+  }
+  
+  tr:hover {
+    background-color: #f8f9fa;
+  }
