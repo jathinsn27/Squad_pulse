@@ -1,13 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { Pie, Bar } from 'react-chartjs-2';
+import { Pie, Bar, Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
   CategoryScale,
   LinearScale,
   BarElement,
+  RadialLinearScale,
   Tooltip,
-  Legend
+  Legend,
+  PointElement,  // Add this
+  LineElement,    // Add this
 } from 'chart.js';
 import SquadDetails from './SquadDetails';
 import './Graph.css';
@@ -17,6 +20,9 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  RadialLinearScale,
+  PointElement,  // Add this
+  LineElement,    // Add this
   Tooltip,
   Legend
 );
@@ -53,6 +59,15 @@ const Graphs = () => {
           { name: "Sarah Wilson", sleepDuration: 7.2, status: "good" },
           { name: "Tom Brown", sleepDuration: 6.8, status: "good" }
         ]
+      },
+      stepCount: {
+        soldiers: [
+          { name: "John Doe", steps: 12500 },
+          { name: "Jane Smith", steps: 8900 },
+          { name: "Mike Johnson", steps: 10200 },
+          { name: "Sarah Wilson", steps: 15000 },
+          { name: "Tom Brown", steps: 11300 }
+        ]
       }
     },
     {
@@ -80,6 +95,15 @@ const Graphs = () => {
           { name: "Chris Martin", sleepDuration: 3.8, status: "insomniac" },
           { name: "Lisa Anderson", sleepDuration: 6.2, status: "irregular" },
           { name: "David Wilson", sleepDuration: 7.1, status: "good" }
+        ]
+      },
+      stepCount: {
+        soldiers: [
+          { name: "Alex Turner", steps: 13200 },
+          { name: "Emma Davis", steps: 9800 },
+          { name: "Chris Martin", steps: 11500 },
+          { name: "Lisa Anderson", steps: 14200 },
+          { name: "David Wilson", steps: 10800 }
         ]
       }
     },
@@ -109,6 +133,15 @@ const Graphs = () => {
           { name: "Sophie Brown", sleepDuration: 7.5, status: "good" },
           { name: "Daniel Lee", sleepDuration: 6.9, status: "good" }
         ]
+      },
+      stepCount: {
+        soldiers: [
+          { name: "Ryan Cooper", steps: 16000 },
+          { name: "Emily White", steps: 12300 },
+          { name: "James Taylor", steps: 9500 },
+          { name: "Sophie Brown", steps: 13800 },
+          { name: "Daniel Lee", steps: 11900 }
+        ]
       }
     },
     {
@@ -136,6 +169,15 @@ const Graphs = () => {
           { name: "William Davis", sleepDuration: 5.9, status: "irregular" },
           { name: "Mia Wilson", sleepDuration: 4.2, status: "insomniac" },
           { name: "Henry Taylor", sleepDuration: 7.0, status: "good" }
+        ]
+      },
+      stepCount: {
+        soldiers: [
+          { name: "Oliver Smith", steps: 11800 },
+          { name: "Ava Johnson", steps: 9200 },
+          { name: "William Davis", steps: 13500 },
+          { name: "Mia Wilson", steps: 10500 },
+          { name: "Henry Taylor", steps: 12700 }
         ]
       }
     }
@@ -170,6 +212,23 @@ const Graphs = () => {
       ],
       borderWidth: 1,
       borderRadius: 4
+    }]
+  });
+
+  const getStepChartData = (data) => ({
+    labels: data.stepCount.soldiers.map(s => s.name.split(' ')[0]),
+    datasets: [{
+      label: 'Daily Steps',
+      data: data.stepCount.soldiers.map(s => s.steps),
+      backgroundColor: 'rgba(0, 150, 255, 0.2)',
+      borderColor: 'rgba(0, 150, 255, 0.8)',
+      borderWidth: 2,
+      pointBackgroundColor: 'rgba(0, 150, 255, 1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(0, 150, 255, 1)',
+      pointRadius: 4,
+      pointHoverRadius: 6
     }]
   });
 
@@ -231,6 +290,46 @@ const Graphs = () => {
     maxBarThickness: 35
   };
 
+  const radarOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    scales: {
+      r: {
+        beginAtZero: true,
+        min: 0,
+        max: 20000,
+        ticks: {
+          stepSize: 5000,
+          callback: (value) => value.toLocaleString(),
+          font: {
+            size: 10
+          }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)'
+        },
+        angleLines: {
+          color: 'rgba(0, 0, 0, 0.1)'
+        },
+        pointLabels: {
+          font: {
+            size: 10
+          }
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.raw.toLocaleString()} steps`
+        }
+      }
+    }
+  };
+
   const handleBack = () => {
     setSelectedSquad(null);
     setTimeout(() => {
@@ -274,11 +373,22 @@ const Graphs = () => {
               <h2>{squad.title}</h2>
               <div className="charts-container">
                 <div className="chart-wrapper">
+                  <h3 className="chart-title">Daily Step Count</h3>
+                  <div className="radar-chart-container">
+                    <Radar 
+                      data={getStepChartData(squad)}
+                      options={radarOptions}
+                      id={`radar-${squad.id}`}  // Add this
+                    />
+                  </div>
+                </div>
+                <div className="chart-wrapper">
                   <h3 className="chart-title">Heart Health</h3>
                   <div className="pie-chart-container">
                     <Pie 
                       data={getPieChartData(squad)}
                       options={pieOptions}
+                      id={`pie-${squad.id}`}  // Add this
                     />
                   </div>
                 </div>
@@ -288,6 +398,7 @@ const Graphs = () => {
                     <Bar 
                       data={getBarChartData(squad)}
                       options={barOptions}
+                      id={`bar-${squad.id}`}  // Add this
                     />
                   </div>
                 </div>

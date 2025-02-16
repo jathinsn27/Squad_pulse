@@ -3,23 +3,28 @@ import './SquadDetails.css';
 
 const SquadDetails = ({ squad, onBack }) => {
   // Function to calculate fit score based on all health metrics
-  const calculateFitScore = (soldier) => {
+  const calculateFitScore = (soldier, stepData) => {
     let score = 0;
     
-    // Blood O2 scoring (max 33 points)
-    if (soldier.bloodO2 >= 97) score += 33;
-    else if (soldier.bloodO2 >= 95) score += 25;
+    // Blood O2 scoring (max 25 points)
+    if (soldier.bloodO2 >= 97) score += 25;
+    else if (soldier.bloodO2 >= 95) score += 20;
     else if (soldier.bloodO2 >= 92) score += 15;
     
-    // Heart rate scoring (max 33 points)
-    if (soldier.heartRate >= 60 && soldier.heartRate <= 80) score += 33;
-    else if (soldier.heartRate > 80 && soldier.heartRate <= 90) score += 25;
+    // Heart rate scoring (max 25 points)
+    if (soldier.heartRate >= 60 && soldier.heartRate <= 80) score += 25;
+    else if (soldier.heartRate > 80 && soldier.heartRate <= 90) score += 20;
     else if (soldier.heartRate > 90) score += 15;
     
-    // Sleep duration scoring (max 34 points)
-    if (soldier.sleepDuration >= 7) score += 34;
-    else if (soldier.sleepDuration >= 6) score += 25;
+    // Sleep duration scoring (max 25 points)
+    if (soldier.sleepDuration >= 7) score += 25;
+    else if (soldier.sleepDuration >= 6) score += 20;
     else if (soldier.sleepDuration >= 4) score += 15;
+
+    // Step count scoring (max 25 points)
+    if (stepData.steps >= 12000) score += 25;
+    else if (stepData.steps >= 10000) score += 20;
+    else if (stepData.steps >= 8000) score += 15;
     
     return score;
   };
@@ -27,10 +32,15 @@ const SquadDetails = ({ squad, onBack }) => {
   // Combine health data for each soldier
   const combinedSoldierData = squad.heartHealth.soldiers.map((soldier, index) => {
     const sleepData = squad.sleepHealth.soldiers[index];
+    const stepData = squad.stepCount.soldiers[index];
     return {
       ...soldier,
       sleepDuration: sleepData.sleepDuration,
-      fitScore: calculateFitScore({ ...soldier, sleepDuration: sleepData.sleepDuration })
+      steps: stepData.steps,
+      fitScore: calculateFitScore(
+        { ...soldier, sleepDuration: sleepData.sleepDuration },
+        stepData
+      )
     };
   });
 
@@ -50,6 +60,7 @@ const SquadDetails = ({ squad, onBack }) => {
               <th>Blood O2 Level (%)</th>
               <th>Heart Rate (BPM)</th>
               <th>Sleep Duration (hrs)</th>
+              <th>Daily Steps</th>
               <th>Fit Score</th>
             </tr>
           </thead>
@@ -60,6 +71,7 @@ const SquadDetails = ({ squad, onBack }) => {
                 <td>{soldier.bloodO2}%</td>
                 <td>{soldier.heartRate}</td>
                 <td>{soldier.sleepDuration}</td>
+                <td>{soldier.steps.toLocaleString()}</td>
                 <td>
                   <span className={`fit-score ${
                     soldier.fitScore >= 80 ? 'excellent' :

@@ -53,30 +53,45 @@
 
 .charts-container {
   display: flex;
-  justify-content: center;
-  gap: 3rem;  /* Adjusted gap between charts */
-  margin-top: 3rem;
+  justify-content: center;  /* Changed from space-between */
+  gap: 1rem;  /* Reduced from 1.5rem or 2rem */
+  margin-top: 2rem;  /* Reduced if needed */
   width: 100%;
+}
+
+.radar-chart-container {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;
+  padding: 10px;
+  transition: transform 0.3s ease;
+}
+
+.radar-chart-container canvas {
+  max-width: 220px !important;
+  max-height: 220px !important;
+  width: 220px !important;
+  height: 220px !important;
 }
 
 .chart-wrapper {
   flex: 1;
-  max-width: 250px;
+  max-width: 220px;  /* Adjusted to be consistent */
 }
 
 .chart-title {
   color: #333;
   font-size: 1.1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .pie-chart-container,
 .bar-chart-container {
-  width: 220px !important;  /* Slightly wider than pie chart */
+  width: 200px !important;  /* Slightly wider than pie chart */
   height: 200px !important;
   margin: 0 auto;
-  padding: 10px;
+  padding: 5px;
   transition: transform 0.3s ease;
 }
 
