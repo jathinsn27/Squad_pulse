@@ -83,8 +83,6 @@ squadpulse/
 ├── public/
 └── package.json
 
-
-
 ## Usage
 
 ### Admin Dashboard
@@ -99,14 +97,6 @@ squadpulse/
 3. Track daily activity
 4. Monitor sleep patterns
 
-## Screenshots
-
-![Admin Dashboard](path_to_admin_screenshot.png)
-*Admin Dashboard showing squad health analytics*
-
-![User Dashboard](path_to_user_screenshot.png)
-*User Dashboard showing personal health metrics*
-
 ## Contributing
 
 1. Fork the repository
@@ -114,10 +104,6 @@ squadpulse/
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
