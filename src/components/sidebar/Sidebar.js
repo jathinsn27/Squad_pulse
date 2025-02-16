@@ -6,7 +6,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-brand">
-        <h2>SquadPulse<span className="api-tag">SP</span></h2>
+        <h2>SquadPulse</h2>
       </div>
       
       <nav className="sidebar-nav">

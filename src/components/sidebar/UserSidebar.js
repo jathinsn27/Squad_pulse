@@ -6,7 +6,7 @@ const UserSidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-brand">
-        <h2>CAPTAIN<span className="api-tag">A</span></h2>
+        <h2>SquadPulse</h2>
       </div>
       
       <nav className="sidebar-nav">
