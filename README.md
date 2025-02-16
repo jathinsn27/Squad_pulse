@@ -1,7 +1,5 @@
 # SquadPulse - Military Health Monitoring System
 
-![SquadPulse Logo](path_to_logo.png)
-
 ## Overview
 
 SquadPulse is a comprehensive health monitoring system designed specifically for military personnel. It provides real-time health analytics and squad performance monitoring to ensure optimal readiness and well-being of military units.
