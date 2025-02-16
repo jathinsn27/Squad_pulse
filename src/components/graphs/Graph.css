@@ -1,0 +1,106 @@
+.graphs-page {
+  padding: 2rem;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.graphs-page h1 {
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.graphs-section {
+  height: 400px; /* Fixed height for the scrollable section */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between cards and indicators */
+}
+
+.graphs-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 2rem;
+  padding: 1rem 0;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  height: calc(100% - 40px);
+}
+
+.graphs-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.graph-card {
+  min-width: calc(100% - 4rem); /* Take full width minus padding */
+  scroll-snap-align: start;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.graph-card:hover {
+  transform: translateY(-5px);
+}
+
+.graph-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.graph-card h2 {
+  color: #333;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.graph-card p {
+  color: #666;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.view-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
+
+.page-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  position: static;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ccc;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background-color: #007bff;
+}

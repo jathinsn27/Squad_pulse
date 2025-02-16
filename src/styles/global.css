@@ -1,0 +1,11 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 80px; /* Reduced from 250px to 80px - adjust based on your sidebar width */
+  padding: 20px;
+  width: calc(100% - 80px); /* Ensures content takes up remaining space */
+}

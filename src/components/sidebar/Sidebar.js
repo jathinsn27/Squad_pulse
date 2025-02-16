@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -11,19 +12,31 @@ const Sidebar = () => {
       <nav className="sidebar-nav">
         <div className="nav-section">
           <div className="nav-group">
-            <div className="nav-item active">
+            {/* <Link to="/connections" className="nav-item active">
               <span className="icon">🔌</span>
               <span>Connections</span>
-            </div>
-            <div className="nav-item">
+            </Link> */}
+            {/* <Link to="/users" className="nav-item">
+              <span className="icon">👥</span>
+              <span>Users</span>
+            </Link> */}
+            <Link to="/graphs" className="nav-item">
+              <span className="icon">📊</span>
+              <span>Graphs</span>
+            </Link>
+            {/* <div className="nav-item active">
+              <span className="icon">🔌</span>
+              <span>Connections</span>
+            </div> */}
+            {/* <div className="nav-item">
               <span className="icon">👥</span>
               <span>Users</span>
             </div>
             <div className="nav-item">
               <span className="icon">🔒</span>
               <span>Authentication</span>
-            </div>
-            <div className="nav-item">
+            </div> */}
+            {/* <div className="nav-item">
               <span className="icon">📊</span>
               <span>Payload Simulator</span>
             </div>
@@ -34,10 +47,10 @@ const Sidebar = () => {
             <div className="nav-item">
               <span className="icon">⏱️</span>
               <span>Provider Uptime</span>
-            </div>
+            </div> */}
           </div>
 
-          <div className="nav-group">
+          {/* <div className="nav-group">
             <div className="nav-item">
               <span className="icon">📈</span>
               <span>Health Scores</span>
@@ -50,7 +63,7 @@ const Sidebar = () => {
               <span className="icon">🎁</span>
               <span>Health Rewards</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </nav>
     </div>
