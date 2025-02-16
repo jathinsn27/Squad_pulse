@@ -1,0 +1,4 @@
+flask
+terra-python
+chromadb
+flask-cors
