@@ -1,31 +1,34 @@
+body {
+  overflow: hidden;
+}
+
 .graphs-page {
   padding: 2rem;
+  background-color: #f0f2f5;
   height: 100vh;
-  background-color: #f5f5f5;
+  overflow: hidden;
 }
 
 .graphs-page h1 {
-  margin-bottom: 2rem;
   color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .graphs-section {
-  height: 400px;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  overflow: hidden;
+  height: calc(100vh - 120px);
 }
 
 .graphs-scroll-container {
   display: flex;
   overflow-x: auto;
-  gap: 2rem;
-  padding: 1rem 0;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
   scroll-snap-type: x mandatory;
-  height: calc(100% - 40px);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
 }
 
 .graphs-scroll-container::-webkit-scrollbar {
@@ -33,80 +36,106 @@
 }
 
 .graph-card {
-  min-width: calc(100% - 4rem);
-  scroll-snap-align: start;
+  flex: 0 0 100%;
+  padding: 1.5rem;
+  margin: 0;
   background: white;
   border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  scroll-snap-align: start;
+  transition: transform 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.graph-card h2 {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
+.graph-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.squad-header {
+  margin-bottom: 2rem;
+}
+
+.squad-header h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
   color: #333;
-  margin: 0;
-  font-size: 1.3rem;
+}
+
+.squad-stats {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.stat-value {
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.stat-value.good {
+  color: #4CAF50;
+  background-color: #E8F5E9;
+}
+
+.stat-value.needs-improvement {
+  color: #F44336;
+  background-color: #FFEBEE;
 }
 
 .charts-container {
   display: flex;
-  justify-content: center;  /* Changed from space-between */
-  gap: 1rem;  /* Reduced from 1.5rem or 2rem */
-  margin-top: 2rem;  /* Reduced if needed */
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
   width: 100%;
-}
-
-.radar-chart-container {
-  width: 220px;
-  height: 220px;
-  margin: 0 auto;
-  padding: 10px;
-  transition: transform 0.3s ease;
-}
-
-.radar-chart-container canvas {
-  max-width: 220px !important;
-  max-height: 220px !important;
-  width: 220px !important;
-  height: 220px !important;
 }
 
 .chart-wrapper {
   flex: 1;
-  max-width: 220px;  /* Adjusted to be consistent */
+  max-width: 220px;
 }
 
 .chart-title {
-  color: #333;
-  font-size: 1.1rem;
   margin-bottom: 0.5rem;
   text-align: center;
+  font-size: 0.9rem;
+  color: #666;
 }
 
+.radar-chart-container,
 .pie-chart-container,
 .bar-chart-container {
-  width: 200px !important;  /* Slightly wider than pie chart */
-  height: 200px !important;
+  width: 200px;
+  height: 200px;
   margin: 0 auto;
   padding: 5px;
-  transition: transform 0.3s ease;
 }
 
+.radar-chart-container canvas,
 .pie-chart-container canvas,
 .bar-chart-container canvas {
-  max-width: 220px !important;
+  max-width: 200px !important;
   max-height: 200px !important;
-  width: 220px !important;
+  width: 200px !important;
   height: 200px !important;
-}
-
-.pie-chart-container:hover,
-.bar-chart-container:hover {
-  transform: scale(1.05);
-  cursor: pointer;
 }
 
 .page-indicators {
@@ -114,8 +143,8 @@
   justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
-  position: static;
-  bottom: 1rem;
+  position: absolute;
+  bottom: 20px;
   left: 0;
   right: 0;
 }
@@ -124,58 +153,37 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #ccc;
+  background-color: #ddd;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .indicator.active {
-  background-color: #007bff;
+  background-color: #1a73e8;
 }
 
-/* Responsive styles */
+@media (max-width: 1024px) {
+  .charts-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .chart-wrapper {
+    margin-bottom: 2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .graphs-page {
     padding: 1rem;
   }
-
-  .charts-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  .chart-wrapper {
-    width: 100%;
-  }
-
+  
   .graph-card {
     padding: 1rem;
   }
-
-  .graph-card h2 {
-    top: 1rem;
-    left: 1rem;
-    font-size: 1.1rem;
+  
+  .squad-stats {
+    flex-direction: column;
+    gap: 1rem;
   }
-
-  .chart-title {
-    font-size: 1rem;
-  }
-}
-
-.graph-card {
-  min-width: calc(100% - 4rem);
-  scroll-snap-align: start;
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.graph-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }

@@ -7,10 +7,10 @@ import {
   LinearScale,
   BarElement,
   RadialLinearScale,
+  PointElement,
+  LineElement,
   Tooltip,
-  Legend,
-  PointElement,  // Add this
-  LineElement,    // Add this
+  Legend
 } from 'chart.js';
 import SquadDetails from './SquadDetails';
 import './Graph.css';
@@ -21,8 +21,8 @@ ChartJS.register(
   LinearScale,
   BarElement,
   RadialLinearScale,
-  PointElement,  // Add this
-  LineElement,    // Add this
+  PointElement,
+  LineElement,
   Tooltip,
   Legend
 );
@@ -127,11 +127,11 @@ const Graphs = () => {
         irregular: 5,
         insomniac: 3,
         soldiers: [
-          { name: "Ryan Cooper", sleepDuration: 7.9, status: "good" },
-          { name: "Emily White", sleepDuration: 5.2, status: "irregular" },
-          { name: "James Taylor", sleepDuration: 3.2, status: "insomniac" },
-          { name: "Sophie Brown", sleepDuration: 7.5, status: "good" },
-          { name: "Daniel Lee", sleepDuration: 6.9, status: "good" }
+          { name: "Ryan Cooper", sleepDuration: 7.8, status: "good" },
+          { name: "Emily White", sleepDuration: 7.5, status: "good" },
+          { name: "James Taylor", sleepDuration: 4.2, status: "insomniac" },
+          { name: "Sophie Brown", sleepDuration: 7.0, status: "good" },
+          { name: "Daniel Lee", sleepDuration: 5.5, status: "irregular" }
         ]
       },
       stepCount: {
@@ -152,11 +152,11 @@ const Graphs = () => {
         irregular: 4,
         abnormal: 5,
         soldiers: [
-          { name: "Oliver Smith", bloodO2: 98, heartRate: 71, status: "normal" },
-          { name: "Ava Johnson", bloodO2: 92, heartRate: 94, status: "abnormal" },
-          { name: "William Davis", bloodO2: 94, heartRate: 85, status: "irregular" },
-          { name: "Mia Wilson", bloodO2: 91, heartRate: 97, status: "abnormal" },
-          { name: "Henry Taylor", bloodO2: 97, heartRate: 73, status: "normal" }
+          { name: "Oliver Smith", bloodO2: 97, heartRate: 71, status: "normal" },
+          { name: "Ava Johnson", bloodO2: 94, heartRate: 87, status: "irregular" },
+          { name: "William Davis", bloodO2: 90, heartRate: 97, status: "abnormal" },
+          { name: "Mia Wilson", bloodO2: 96, heartRate: 76, status: "normal" },
+          { name: "Henry Taylor", bloodO2: 98, heartRate: 72, status: "normal" }
         ]
       },
       sleepHealth: {
@@ -164,11 +164,11 @@ const Graphs = () => {
         irregular: 6,
         insomniac: 6,
         soldiers: [
-          { name: "Oliver Smith", sleepDuration: 7.3, status: "good" },
-          { name: "Ava Johnson", sleepDuration: 4.8, status: "insomniac" },
-          { name: "William Davis", sleepDuration: 5.9, status: "irregular" },
-          { name: "Mia Wilson", sleepDuration: 4.2, status: "insomniac" },
-          { name: "Henry Taylor", sleepDuration: 7.0, status: "good" }
+          { name: "Oliver Smith", sleepDuration: 7.2, status: "good" },
+          { name: "Ava Johnson", sleepDuration: 5.8, status: "irregular" },
+          { name: "William Davis", sleepDuration: 3.9, status: "insomniac" },
+          { name: "Mia Wilson", sleepDuration: 6.5, status: "irregular" },
+          { name: "Henry Taylor", sleepDuration: 7.4, status: "good" }
         ]
       },
       stepCount: {
@@ -231,6 +231,43 @@ const Graphs = () => {
       pointHoverRadius: 6
     }]
   });
+
+  const calculateSquadStats = (squad) => {
+    const soldiers = squad.heartHealth.soldiers.map((soldier, index) => {
+      const sleepData = squad.sleepHealth.soldiers[index];
+      const stepData = squad.stepCount.soldiers[index];
+      
+      // Calculate individual fit score
+      let score = 0;
+      
+      // Blood O2 scoring (max 25 points)
+      if (soldier.bloodO2 >= 97) score += 25;
+      else if (soldier.bloodO2 >= 95) score += 20;
+      else if (soldier.bloodO2 >= 92) score += 15;
+      
+      // Heart rate scoring (max 25 points)
+      if (soldier.heartRate >= 60 && soldier.heartRate <= 80) score += 25;
+      else if (soldier.heartRate > 80 && soldier.heartRate <= 90) score += 20;
+      else if (soldier.heartRate > 90) score += 15;
+      
+      // Sleep duration scoring (max 25 points)
+      if (sleepData.sleepDuration >= 7) score += 25;
+      else if (sleepData.sleepDuration >= 6) score += 20;
+      else if (sleepData.sleepDuration >= 4) score += 15;
+
+      // Step count scoring (max 25 points)
+      if (stepData.steps >= 12000) score += 25;
+      else if (stepData.steps >= 10000) score += 20;
+      else if (stepData.steps >= 8000) score += 15;
+      
+      return score;
+    });
+
+    const averageScore = Math.round(soldiers.reduce((acc, score) => acc + score, 0) / soldiers.length);
+    const fitSoldiers = soldiers.filter(score => score >= 80).length;
+
+    return { averageScore, fitSoldiers };
+  };
 
   const pieOptions = {
     responsive: true,
@@ -345,9 +382,22 @@ const Graphs = () => {
     const container = e.target;
     const scrollPosition = container.scrollLeft;
     const pageWidth = container.offsetWidth;
-    const currentPage = Math.round(scrollPosition / pageWidth) + 1;
-    setActivePage(currentPage);
+    const currentPage = Math.floor(scrollPosition / pageWidth) + 1;
+    
+    // Only update if the page has actually changed
+    if (currentPage !== activePage) {
+      setActivePage(currentPage);
+    }
   };
+
+  // Add click handlers for the indicators
+const handleIndicatorClick = (pageNumber) => {
+  if (scrollContainerRef.current) {
+    const pageWidth = scrollContainerRef.current.offsetWidth;
+    scrollContainerRef.current.scrollLeft = (pageNumber - 1) * pageWidth;
+    setActivePage(pageNumber);
+  }
+};
 
   if (selectedSquad) {
     return <SquadDetails squad={selectedSquad} onBack={handleBack} />;
@@ -363,48 +413,66 @@ const Graphs = () => {
           className="graphs-scroll-container" 
           onScroll={handleScroll}
         >
-          {squadData.map((squad) => (
-            <div 
-              key={squad.id} 
-              className="graph-card"
-              onClick={() => setSelectedSquad(squad)}
-              style={{ cursor: 'pointer' }}
-            >
-              <h2>{squad.title}</h2>
-              <div className="charts-container">
-                <div className="chart-wrapper">
-                  <h3 className="chart-title">Daily Step Count</h3>
-                  <div className="radar-chart-container">
-                    <Radar 
-                      data={getStepChartData(squad)}
-                      options={radarOptions}
-                      id={`radar-${squad.id}`}  // Add this
-                    />
+          {squadData.map((squad) => {
+            const { averageScore, fitSoldiers } = calculateSquadStats(squad);
+            
+            return (
+              <div 
+                key={squad.id} 
+                className="graph-card"
+                onClick={() => setSelectedSquad(squad)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="squad-header">
+                  <h2>{squad.title}</h2>
+                  <div className="squad-stats">
+                    <div className="stat-item">
+                      <span className="stat-label">Average Fit Score:</span>
+                      <span className={`stat-value ${averageScore >= 80 ? 'good' : 'needs-improvement'}`}>
+                        {averageScore}
+                      </span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-label">Fit Soldiers:</span>
+                      <span className="stat-value good">{fitSoldiers}/{squad.heartHealth.soldiers.length}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="chart-wrapper">
-                  <h3 className="chart-title">Heart Health</h3>
-                  <div className="pie-chart-container">
-                    <Pie 
-                      data={getPieChartData(squad)}
-                      options={pieOptions}
-                      id={`pie-${squad.id}`}  // Add this
-                    />
+                <div className="charts-container">
+                  <div className="chart-wrapper">
+                    <h3 className="chart-title">Daily Step Count</h3>
+                    <div className="radar-chart-container">
+                      <Radar 
+                        data={getStepChartData(squad)}
+                        options={radarOptions}
+                        id={`radar-${squad.id}`}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="chart-wrapper">
-                  <h3 className="chart-title">Sleep Health</h3>
-                  <div className="bar-chart-container">
-                    <Bar 
-                      data={getBarChartData(squad)}
-                      options={barOptions}
-                      id={`bar-${squad.id}`}  // Add this
-                    />
+                  <div className="chart-wrapper">
+                    <h3 className="chart-title">Heart Health</h3>
+                    <div className="pie-chart-container">
+                      <Pie 
+                        data={getPieChartData(squad)}
+                        options={pieOptions}
+                        id={`pie-${squad.id}`}
+                      />
+                    </div>
+                  </div>
+                  <div className="chart-wrapper">
+                    <h3 className="chart-title">Sleep Health</h3>
+                    <div className="bar-chart-container">
+                      <Bar 
+                        data={getBarChartData(squad)}
+                        options={barOptions}
+                        id={`bar-${squad.id}`}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         
         <div className="page-indicators">
@@ -412,6 +480,8 @@ const Graphs = () => {
             <div 
               key={index} 
               className={`indicator ${activePage === index + 1 ? 'active' : ''}`}
+              onClick={() => handleIndicatorClick(index + 1)}
+              style={{ cursor: 'pointer' }}
             />
           ))}
         </div>
