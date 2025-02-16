@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
-import { Pie } from 'react-chartjs-2';
+import { Pie, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement,
   Tooltip,
   Legend
 } from 'chart.js';
 import SquadDetails from './SquadDetails';
+import SleepDetails from './SleepDetails';
 import './Graph.css';
 
 ChartJS.register(
   ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement,
   Tooltip,
   Legend
 );
@@ -18,6 +25,7 @@ ChartJS.register(
 const Graphs = () => {
   const [activePage, setActivePage] = useState(1);
   const [selectedSquad, setSelectedSquad] = useState(null);
+  const [selectedView, setSelectedView] = useState(null);
 
   const squadData = [
     {
@@ -33,6 +41,18 @@ const Graphs = () => {
           { name: "Mike Johnson", bloodO2: 92, heartRate: 95, status: "abnormal" },
           { name: "Sarah Wilson", bloodO2: 99, heartRate: 70, status: "normal" },
           { name: "Tom Brown", bloodO2: 97, heartRate: 75, status: "normal" }
+        ]
+      },
+      sleepHealth: {
+        good: 12,
+        irregular: 8,
+        insomniac: 3,
+        soldiers: [
+          { name: "John Doe", sleepDuration: 7.5, status: "good" },
+          { name: "Jane Smith", sleepDuration: 5.5, status: "irregular" },
+          { name: "Mike Johnson", sleepDuration: 3.5, status: "insomniac" },
+          { name: "Sarah Wilson", sleepDuration: 7.2, status: "good" },
+          { name: "Tom Brown", sleepDuration: 6.8, status: "good" }
         ]
       }
     },
@@ -50,6 +70,18 @@ const Graphs = () => {
           { name: "Lisa Anderson", bloodO2: 93, heartRate: 86, status: "irregular" },
           { name: "David Wilson", bloodO2: 97, heartRate: 71, status: "normal" }
         ]
+      },
+      sleepHealth: {
+        good: 10,
+        irregular: 7,
+        insomniac: 5,
+        soldiers: [
+          { name: "Alex Turner", sleepDuration: 7.8, status: "good" },
+          { name: "Emma Davis", sleepDuration: 5.8, status: "irregular" },
+          { name: "Chris Martin", sleepDuration: 3.8, status: "insomniac" },
+          { name: "Lisa Anderson", sleepDuration: 6.2, status: "irregular" },
+          { name: "David Wilson", sleepDuration: 7.1, status: "good" }
+        ]
       }
     },
     {
@@ -65,6 +97,18 @@ const Graphs = () => {
           { name: "James Taylor", bloodO2: 91, heartRate: 96, status: "abnormal" },
           { name: "Sophie Brown", bloodO2: 97, heartRate: 74, status: "normal" },
           { name: "Daniel Lee", bloodO2: 95, heartRate: 84, status: "irregular" }
+        ]
+      },
+      sleepHealth: {
+        good: 15,
+        irregular: 5,
+        insomniac: 3,
+        soldiers: [
+          { name: "Ryan Cooper", sleepDuration: 7.9, status: "good" },
+          { name: "Emily White", sleepDuration: 5.2, status: "irregular" },
+          { name: "James Taylor", sleepDuration: 3.2, status: "insomniac" },
+          { name: "Sophie Brown", sleepDuration: 7.5, status: "good" },
+          { name: "Daniel Lee", sleepDuration: 6.9, status: "good" }
         ]
       }
     },
@@ -82,6 +126,18 @@ const Graphs = () => {
           { name: "Mia Wilson", bloodO2: 91, heartRate: 97, status: "abnormal" },
           { name: "Henry Taylor", bloodO2: 97, heartRate: 73, status: "normal" }
         ]
+      },
+      sleepHealth: {
+        good: 11,
+        irregular: 6,
+        insomniac: 6,
+        soldiers: [
+          { name: "Oliver Smith", sleepDuration: 7.3, status: "good" },
+          { name: "Ava Johnson", sleepDuration: 4.8, status: "insomniac" },
+          { name: "William Davis", sleepDuration: 5.9, status: "irregular" },
+          { name: "Mia Wilson", sleepDuration: 4.2, status: "insomniac" },
+          { name: "Henry Taylor", sleepDuration: 7.0, status: "good" }
+        ]
       }
     }
   ];
@@ -91,11 +147,43 @@ const Graphs = () => {
     datasets: [{
       data: [data.heartHealth.normal, data.heartHealth.irregular, data.heartHealth.abnormal],
       backgroundColor: [
-        '#4CAF50', // green for normal
-        '#FFC107', // yellow for irregular
-        '#F44336'  // red for abnormal
+        '#4CAF50',
+        '#FFC107',
+        '#F44336'
       ],
       borderWidth: 1
+    }]
+  });
+
+  // const getBarChartData = (data) => ({
+  //   labels: ['Good', 'Irregular', 'Insomniac'],
+  //   datasets: [{
+  //     data: [data.sleepHealth.good, data.sleepHealth.irregular, data.sleepHealth.insomniac],
+  //     backgroundColor: [
+  //       '#4CAF50',
+  //       '#FFC107',
+  //       '#F44336'
+  //     ],
+  //     borderWidth: 1
+  //   }]
+  // });
+
+  const getBarChartData = (data) => ({
+    labels: ['Good', 'Irregular', 'Insomniac'],
+    datasets: [{
+      data: [data.sleepHealth.good, data.sleepHealth.irregular, data.sleepHealth.insomniac],
+      backgroundColor: [
+        'rgba(76, 175, 80, 0.8)',  // Slightly transparent green
+        'rgba(255, 193, 7, 0.8)',  // Slightly transparent yellow
+        'rgba(244, 67, 54, 0.8)'   // Slightly transparent red
+      ],
+      borderColor: [
+        '#4CAF50',
+        '#FFC107',
+        '#F44336'
+      ],
+      borderWidth: 1,
+      borderRadius: 4  // Rounded bars
     }]
   });
 
@@ -118,6 +206,76 @@ const Graphs = () => {
     height: 200
   };
 
+  // Update the barOptions object
+const barOptions = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      display: false
+    },
+    tooltip: {
+      enabled: true
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        stepSize: 2,
+        font: {
+          size: 10
+        }
+      },
+      grid: {
+        display: true,
+        drawBorder: false
+      },
+      max: 20 // Set a fixed maximum to maintain consistent scale
+    },
+    x: {
+      ticks: {
+        font: {
+          size: 10
+        }
+      },
+      grid: {
+        display: false
+      }
+    }
+  },
+  barThickness: 30, // Control bar width
+  maxBarThickness: 35
+};
+
+  // const barOptions = {
+  //   responsive: true,
+  //   maintainAspectRatio: true,
+  //   plugins: {
+  //     legend: {
+  //       display: false
+  //     }
+  //   },
+  //   scales: {
+  //     y: {
+  //       beginAtZero: true,
+  //       ticks: {
+  //         stepSize: 1,
+  //         font: {
+  //           size: 10
+  //         }
+  //       }
+  //     },
+  //     x: {
+  //       ticks: {
+  //         font: {
+  //           size: 10
+  //         }
+  //       }
+  //     }
+  //   }
+  // };
+
   const handleScroll = (e) => {
     const container = e.target;
     const scrollPosition = container.scrollLeft;
@@ -127,7 +285,17 @@ const Graphs = () => {
   };
 
   if (selectedSquad) {
-    return <SquadDetails squad={selectedSquad} onBack={() => setSelectedSquad(null)} />;
+    if (selectedView === 'heart') {
+      return <SquadDetails squad={selectedSquad} onBack={() => {
+        setSelectedSquad(null);
+        setSelectedView(null);
+      }} />;
+    } else if (selectedView === 'sleep') {
+      return <SleepDetails squad={selectedSquad} onBack={() => {
+        setSelectedSquad(null);
+        setSelectedView(null);
+      }} />;
+    }
   }
 
   return (
@@ -139,17 +307,38 @@ const Graphs = () => {
           {squadData.map((squad) => (
             <div key={squad.id} className="graph-card">
               <h2>{squad.title}</h2>
-              <div className="chart-container">
-                <h3 className="chart-title">Heart Health</h3>
-                <div 
-                  className="pie-chart-container"
-                  onClick={() => setSelectedSquad(squad)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <Pie 
-                    data={getPieChartData(squad)}
-                    options={pieOptions}
-                  />
+              <div className="charts-container">
+                <div className="chart-wrapper">
+                  <h3 className="chart-title">Heart Health</h3>
+                  <div 
+                    className="pie-chart-container"
+                    onClick={() => {
+                      setSelectedSquad(squad);
+                      setSelectedView('heart');
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <Pie 
+                      data={getPieChartData(squad)}
+                      options={pieOptions}
+                    />
+                  </div>
+                </div>
+                <div className="chart-wrapper">
+                  <h3 className="chart-title">Sleep Health</h3>
+                  <div 
+                    className="bar-chart-container"
+                    onClick={() => {
+                      setSelectedSquad(squad);
+                      setSelectedView('sleep');
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <Bar 
+                      data={getBarChartData(squad)}
+                      options={barOptions}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -10,11 +10,11 @@
 }
 
 .graphs-section {
-  height: 400px; /* Fixed height for the scrollable section */
+  height: 400px;
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Space between cards and indicators */
+  gap: 1.5rem;
 }
 
 .graphs-scroll-container {
@@ -33,57 +33,65 @@
 }
 
 .graph-card {
-  min-width: calc(100% - 4rem); /* Take full width minus padding */
+  min-width: calc(100% - 4rem);
   scroll-snap-align: start;
   background: white;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   position: relative;
 }
 
-.graph-card:hover {
-  transform: translateY(-5px);
-}
-
-.graph-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
 .graph-card h2 {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
   color: #333;
-  margin-bottom: 0.5rem;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.charts-container {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;  /* Adjusted gap between charts */
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.chart-wrapper {
+  flex: 1;
+  max-width: 250px;
+}
+
+.chart-title {
+  color: #333;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
-.graph-card h2 {
-  position: absolute; /* Added this */
-  top: 1.5rem;      /* Added this */
-  left: 1.5rem;     /* Added this */
-  color: #333;
-  margin: 0;        /* Changed this */
-  font-size: 1.3rem; /* Added this */
+.pie-chart-container,
+.bar-chart-container {
+  width: 220px !important;  /* Slightly wider than pie chart */
+  height: 200px !important;
+  margin: 0 auto;
+  padding: 10px;
+  transition: transform 0.3s ease;
 }
 
-.view-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
+.pie-chart-container canvas,
+.bar-chart-container canvas {
+  max-width: 220px !important;
+  max-height: 200px !important;
+  width: 220px !important;
+  height: 200px !important;
+}
+
+.pie-chart-container:hover,
+.bar-chart-container:hover {
+  transform: scale(1.05);
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 1rem;
-}
-
-.view-button:hover {
-  background-color: #0056b3;
 }
 
 .page-indicators {
@@ -109,44 +117,33 @@
   background-color: #007bff;
 }
 
-.pie-chart-container {
-  width: 200px;
-  height: 200px;
-  margin: 0 auto;
-}
+/* Responsive styles */
+@media (max-width: 768px) {
+  .graphs-page {
+    padding: 1rem;
+  }
 
-.pie-chart-container canvas {
-  max-width: 200px !important;
-  max-height: 200px !important;
-  width: 200px !important;
-  height: 200px !important;
-}
+  .charts-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
 
-/* Update the graph-card styles */
-.graph-card {
-  min-width: calc(100% - 4rem);
-  scroll-snap-align: start;
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  .chart-wrapper {
+    width: 100%;
+  }
 
-/* Add these new styles */
-.chart-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 3rem;
-}
+  .graph-card {
+    padding: 1rem;
+  }
 
-.chart-title {
-  color: #333;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  align-self: flex-start;
-  margin-left: 2rem;
+  .graph-card h2 {
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .chart-title {
+    font-size: 1rem;
+  }
 }
