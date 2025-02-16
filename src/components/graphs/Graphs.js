@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -10,7 +10,6 @@ import {
   Legend
 } from 'chart.js';
 import SquadDetails from './SquadDetails';
-import SleepDetails from './SleepDetails';
 import './Graph.css';
 
 ChartJS.register(
@@ -25,7 +24,7 @@ ChartJS.register(
 const Graphs = () => {
   const [activePage, setActivePage] = useState(1);
   const [selectedSquad, setSelectedSquad] = useState(null);
-  const [selectedView, setSelectedView] = useState(null);
+  const scrollContainerRef = useRef(null);
 
   const squadData = [
     {
@@ -155,27 +154,14 @@ const Graphs = () => {
     }]
   });
 
-  // const getBarChartData = (data) => ({
-  //   labels: ['Good', 'Irregular', 'Insomniac'],
-  //   datasets: [{
-  //     data: [data.sleepHealth.good, data.sleepHealth.irregular, data.sleepHealth.insomniac],
-  //     backgroundColor: [
-  //       '#4CAF50',
-  //       '#FFC107',
-  //       '#F44336'
-  //     ],
-  //     borderWidth: 1
-  //   }]
-  // });
-
   const getBarChartData = (data) => ({
     labels: ['Good', 'Irregular', 'Insomniac'],
     datasets: [{
       data: [data.sleepHealth.good, data.sleepHealth.irregular, data.sleepHealth.insomniac],
       backgroundColor: [
-        'rgba(76, 175, 80, 0.8)',  // Slightly transparent green
-        'rgba(255, 193, 7, 0.8)',  // Slightly transparent yellow
-        'rgba(244, 67, 54, 0.8)'   // Slightly transparent red
+        'rgba(76, 175, 80, 0.8)',
+        'rgba(255, 193, 7, 0.8)',
+        'rgba(244, 67, 54, 0.8)'
       ],
       borderColor: [
         '#4CAF50',
@@ -183,7 +169,7 @@ const Graphs = () => {
         '#F44336'
       ],
       borderWidth: 1,
-      borderRadius: 4  // Rounded bars
+      borderRadius: 4
     }]
   });
 
@@ -201,80 +187,60 @@ const Graphs = () => {
           }
         }
       }
-    },
-    width: 200,
-    height: 200
+    }
   };
 
-  // Update the barOptions object
-const barOptions = {
-  responsive: true,
-  maintainAspectRatio: true,
-  plugins: {
-    legend: {
-      display: false
-    },
-    tooltip: {
-      enabled: true
-    }
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        stepSize: 2,
-        font: {
-          size: 10
-        }
-      },
-      grid: {
-        display: true,
-        drawBorder: false
-      },
-      max: 20 // Set a fixed maximum to maintain consistent scale
-    },
-    x: {
-      ticks: {
-        font: {
-          size: 10
-        }
-      },
-      grid: {
+  const barOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
         display: false
+      },
+      tooltip: {
+        enabled: true
       }
-    }
-  },
-  barThickness: 30, // Control bar width
-  maxBarThickness: 35
-};
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 2,
+          font: {
+            size: 10
+          }
+        },
+        grid: {
+          display: true,
+          drawBorder: false
+        },
+        max: 20
+      },
+      x: {
+        ticks: {
+          font: {
+            size: 10
+          }
+        },
+        grid: {
+          display: false
+        }
+      }
+    },
+    barThickness: 30,
+    maxBarThickness: 35
+  };
 
-  // const barOptions = {
-  //   responsive: true,
-  //   maintainAspectRatio: true,
-  //   plugins: {
-  //     legend: {
-  //       display: false
-  //     }
-  //   },
-  //   scales: {
-  //     y: {
-  //       beginAtZero: true,
-  //       ticks: {
-  //         stepSize: 1,
-  //         font: {
-  //           size: 10
-  //         }
-  //       }
-  //     },
-  //     x: {
-  //       ticks: {
-  //         font: {
-  //           size: 10
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
+  const handleBack = () => {
+    setSelectedSquad(null);
+    setTimeout(() => {
+      if (scrollContainerRef.current) {
+        const pageWidth = scrollContainerRef.current.offsetWidth;
+        const scrollPosition = (activePage - 1) * pageWidth;
+        scrollContainerRef.current.scrollLeft = scrollPosition;
+      }
+    }, 0);
+  };
 
   const handleScroll = (e) => {
     const container = e.target;
@@ -285,17 +251,7 @@ const barOptions = {
   };
 
   if (selectedSquad) {
-    if (selectedView === 'heart') {
-      return <SquadDetails squad={selectedSquad} onBack={() => {
-        setSelectedSquad(null);
-        setSelectedView(null);
-      }} />;
-    } else if (selectedView === 'sleep') {
-      return <SleepDetails squad={selectedSquad} onBack={() => {
-        setSelectedSquad(null);
-        setSelectedView(null);
-      }} />;
-    }
+    return <SquadDetails squad={selectedSquad} onBack={handleBack} />;
   }
 
   return (
@@ -303,21 +259,23 @@ const barOptions = {
       <h1>Squad Health Analytics</h1>
       
       <div className="graphs-section">
-        <div className="graphs-scroll-container" onScroll={handleScroll}>
+        <div 
+          ref={scrollContainerRef}
+          className="graphs-scroll-container" 
+          onScroll={handleScroll}
+        >
           {squadData.map((squad) => (
-            <div key={squad.id} className="graph-card">
+            <div 
+              key={squad.id} 
+              className="graph-card"
+              onClick={() => setSelectedSquad(squad)}
+              style={{ cursor: 'pointer' }}
+            >
               <h2>{squad.title}</h2>
               <div className="charts-container">
                 <div className="chart-wrapper">
                   <h3 className="chart-title">Heart Health</h3>
-                  <div 
-                    className="pie-chart-container"
-                    onClick={() => {
-                      setSelectedSquad(squad);
-                      setSelectedView('heart');
-                    }}
-                    style={{ cursor: 'pointer' }}
-                  >
+                  <div className="pie-chart-container">
                     <Pie 
                       data={getPieChartData(squad)}
                       options={pieOptions}
@@ -326,14 +284,7 @@ const barOptions = {
                 </div>
                 <div className="chart-wrapper">
                   <h3 className="chart-title">Sleep Health</h3>
-                  <div 
-                    className="bar-chart-container"
-                    onClick={() => {
-                      setSelectedSquad(squad);
-                      setSelectedView('sleep');
-                    }}
-                    style={{ cursor: 'pointer' }}
-                  >
+                  <div className="bar-chart-container">
                     <Bar 
                       data={getBarChartData(squad)}
                       options={barOptions}

@@ -83,3 +83,44 @@
   tr:hover {
     background-color: #f8f9fa;
   }
+
+  /* ... keep existing styles ... */
+
+/* Add these new styles */
+.fit-score {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  
+  .fit-score.excellent {
+    background-color: #E8F5E9;
+    color: #4CAF50;
+  }
+  
+  .fit-score.good {
+    background-color: #FFF3E0;
+    color: #FFC107;
+  }
+  
+  .fit-score.needs-improvement {
+    background-color: #FFEBEE;
+    color: #F44336;
+  }
+  
+  /* Update table styles for better alignment */
+  th, td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+  
+  td:first-child {
+    text-align: left;
+  }
+  
+  /* Add hover effect to the entire row */
+  tr:hover {
+    background-color: #f8f9fa;
+  }
