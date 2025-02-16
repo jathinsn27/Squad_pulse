@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# SquadPulse - Military Health Monitoring System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![SquadPulse Logo](path_to_logo.png)
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+SquadPulse is a comprehensive health monitoring system designed specifically for military personnel. It provides real-time health analytics and squad performance monitoring to ensure optimal readiness and well-being of military units.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### For Squad Commanders (Admin)
+- **Squad Overview Dashboard**
+  - Real-time health metrics visualization
+  - Squad performance analytics
+  - Alert system for health anomalies
+  - Interactive data graphs
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### For Individual Soldiers (Users)
+- **Personal Health Dashboard**
+  - Heart rate monitoring
+  - Sleep quality tracking
+  - Activity level measurement
+  - Health status indicators
 
-### `npm test`
+### Key Functionalities
+- Real-time health monitoring
+- Squad-wide analytics
+- Early warning system for health risks
+- Performance tracking
+- Sleep pattern analysis
+- Activity level monitoring
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technology Stack
 
-### `npm run build`
+- **Frontend**
+  - React.js
+  - Redux for state management
+  - Chart.js for data visualization
+  - CSS3 for styling
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Dependencies**
+  ```json
+  {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.x",
+    "react-chartjs-2": "^5.x",
+    "redux": "^4.x",
+    "react-redux": "^8.x"
+  }
+  ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/squadpulse.git
+   ```
 
-### `npm run eject`
+2. Install dependencies
+   ```bash
+   cd squadpulse
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Start the development server
+   ```bash
+   npm start
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Project Structure
