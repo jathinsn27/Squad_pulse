@@ -15,7 +15,7 @@ const SleepDetails = ({ squad, onBack }) => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Sleep Duration (hours)</th>
+              <th>Deep Sleep Duration (hours)</th>
               <th>Status</th>
             </tr>
           </thead>

@@ -59,7 +59,7 @@ const SquadDetails = ({ squad, onBack }) => {
               <th>Name</th>
               <th>Blood O2 Level (%)</th>
               <th>Heart Rate (BPM)</th>
-              <th>Sleep Duration (hrs)</th>
+              <th>Deep Sleep Duration (hrs)</th>
               <th>Daily Steps</th>
               <th>Fit Score</th>
             </tr>

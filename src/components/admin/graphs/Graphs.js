@@ -14,6 +14,9 @@ import {
 } from 'chart.js';
 import SquadDetails from './SquadDetails';
 import './Graph.css';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSquadsRequest } from '../../../store/actions/squadActions';
 
 ChartJS.register(
   ArcElement,
@@ -28,160 +31,29 @@ ChartJS.register(
 );
 
 const Graphs = () => {
+  const dispatch = useDispatch();
+  const { squads, loading, error } = useSelector(state => state.squads);
   const [activePage, setActivePage] = useState(1);
   const [selectedSquad, setSelectedSquad] = useState(null);
   const scrollContainerRef = useRef(null);
 
-  const squadData = [
-    {
-      id: 1,
-      title: "Squad 1",
-      heartHealth: {
-        normal: 15,
-        irregular: 5,
-        abnormal: 3,
-        soldiers: [
-          { name: "John Doe", bloodO2: 98, heartRate: 72, status: "normal" },
-          { name: "Jane Smith", bloodO2: 95, heartRate: 82, status: "irregular" },
-          { name: "Mike Johnson", bloodO2: 92, heartRate: 95, status: "abnormal" },
-          { name: "Sarah Wilson", bloodO2: 99, heartRate: 70, status: "normal" },
-          { name: "Tom Brown", bloodO2: 97, heartRate: 75, status: "normal" }
-        ]
-      },
-      sleepHealth: {
-        good: 12,
-        irregular: 8,
-        insomniac: 3,
-        soldiers: [
-          { name: "John Doe", sleepDuration: 7.5, status: "good" },
-          { name: "Jane Smith", sleepDuration: 5.5, status: "irregular" },
-          { name: "Mike Johnson", sleepDuration: 3.5, status: "insomniac" },
-          { name: "Sarah Wilson", sleepDuration: 7.2, status: "good" },
-          { name: "Tom Brown", sleepDuration: 6.8, status: "good" }
-        ]
-      },
-      stepCount: {
-        soldiers: [
-          { name: "John Doe", steps: 12500 },
-          { name: "Jane Smith", steps: 8900 },
-          { name: "Mike Johnson", steps: 10200 },
-          { name: "Sarah Wilson", steps: 15000 },
-          { name: "Tom Brown", steps: 11300 }
-        ]
-      }
-    },
-    {
-      id: 2,
-      title: "Squad 2",
-      heartHealth: {
-        normal: 12,
-        irregular: 6,
-        abnormal: 4,
-        soldiers: [
-          { name: "Alex Turner", bloodO2: 96, heartRate: 68, status: "normal" },
-          { name: "Emma Davis", bloodO2: 94, heartRate: 88, status: "irregular" },
-          { name: "Chris Martin", bloodO2: 91, heartRate: 98, status: "abnormal" },
-          { name: "Lisa Anderson", bloodO2: 93, heartRate: 86, status: "irregular" },
-          { name: "David Wilson", bloodO2: 97, heartRate: 71, status: "normal" }
-        ]
-      },
-      sleepHealth: {
-        good: 10,
-        irregular: 7,
-        insomniac: 5,
-        soldiers: [
-          { name: "Alex Turner", sleepDuration: 7.8, status: "good" },
-          { name: "Emma Davis", sleepDuration: 5.8, status: "irregular" },
-          { name: "Chris Martin", sleepDuration: 3.8, status: "insomniac" },
-          { name: "Lisa Anderson", sleepDuration: 6.2, status: "irregular" },
-          { name: "David Wilson", sleepDuration: 7.1, status: "good" }
-        ]
-      },
-      stepCount: {
-        soldiers: [
-          { name: "Alex Turner", steps: 13200 },
-          { name: "Emma Davis", steps: 9800 },
-          { name: "Chris Martin", steps: 11500 },
-          { name: "Lisa Anderson", steps: 14200 },
-          { name: "David Wilson", steps: 10800 }
-        ]
-      }
-    },
-    {
-      id: 3,
-      title: "Squad 3",
-      heartHealth: {
-        normal: 18,
-        irregular: 3,
-        abnormal: 2,
-        soldiers: [
-          { name: "Ryan Cooper", bloodO2: 99, heartRate: 70, status: "normal" },
-          { name: "Emily White", bloodO2: 98, heartRate: 73, status: "normal" },
-          { name: "James Taylor", bloodO2: 91, heartRate: 96, status: "abnormal" },
-          { name: "Sophie Brown", bloodO2: 97, heartRate: 74, status: "normal" },
-          { name: "Daniel Lee", bloodO2: 95, heartRate: 84, status: "irregular" }
-        ]
-      },
-      sleepHealth: {
-        good: 15,
-        irregular: 5,
-        insomniac: 3,
-        soldiers: [
-          { name: "Ryan Cooper", sleepDuration: 7.8, status: "good" },
-          { name: "Emily White", sleepDuration: 7.5, status: "good" },
-          { name: "James Taylor", sleepDuration: 4.2, status: "insomniac" },
-          { name: "Sophie Brown", sleepDuration: 7.0, status: "good" },
-          { name: "Daniel Lee", sleepDuration: 5.5, status: "irregular" }
-        ]
-      },
-      stepCount: {
-        soldiers: [
-          { name: "Ryan Cooper", steps: 16000 },
-          { name: "Emily White", steps: 12300 },
-          { name: "James Taylor", steps: 9500 },
-          { name: "Sophie Brown", steps: 13800 },
-          { name: "Daniel Lee", steps: 11900 }
-        ]
-      }
-    },
-    {
-      id: 4,
-      title: "Squad 4",
-      heartHealth: {
-        normal: 14,
-        irregular: 4,
-        abnormal: 5,
-        soldiers: [
-          { name: "Oliver Smith", bloodO2: 97, heartRate: 71, status: "normal" },
-          { name: "Ava Johnson", bloodO2: 94, heartRate: 87, status: "irregular" },
-          { name: "William Davis", bloodO2: 90, heartRate: 97, status: "abnormal" },
-          { name: "Mia Wilson", bloodO2: 96, heartRate: 76, status: "normal" },
-          { name: "Henry Taylor", bloodO2: 98, heartRate: 72, status: "normal" }
-        ]
-      },
-      sleepHealth: {
-        good: 11,
-        irregular: 6,
-        insomniac: 6,
-        soldiers: [
-          { name: "Oliver Smith", sleepDuration: 7.2, status: "good" },
-          { name: "Ava Johnson", sleepDuration: 5.8, status: "irregular" },
-          { name: "William Davis", sleepDuration: 3.9, status: "insomniac" },
-          { name: "Mia Wilson", sleepDuration: 6.5, status: "irregular" },
-          { name: "Henry Taylor", sleepDuration: 7.4, status: "good" }
-        ]
-      },
-      stepCount: {
-        soldiers: [
-          { name: "Oliver Smith", steps: 11800 },
-          { name: "Ava Johnson", steps: 9200 },
-          { name: "William Davis", steps: 13500 },
-          { name: "Mia Wilson", steps: 10500 },
-          { name: "Henry Taylor", steps: 12700 }
-        ]
-      }
+  useEffect(() => {
+    dispatch(fetchSquadsRequest());
+  }, [dispatch]);
+
+  const squadData = squads || [];
+
+  // Add loading state
+  if (loading) {
+      return <div>Loading...</div>;
     }
-  ];
+  
+  // Add error handling
+  if (error) {
+      return <div>Error: {error}</div>;
+    }
+
+
 
   const getPieChartData = (data) => ({
     labels: ['Normal', 'Irregular', 'Abnormal'],
@@ -407,7 +279,7 @@ const handleIndicatorClick = (pageNumber) => {
     <div className="graphs-page">
       <h1>Squad Health Analytics</h1>
       
-      <div className="graphs-section">
+      <div className="graphs-section" style={{ position: 'relative' }}>
         <div 
           ref={scrollContainerRef}
           className="graphs-scroll-container" 
