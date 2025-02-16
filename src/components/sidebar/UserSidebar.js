@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = () => {
+const UserSidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-brand">
@@ -20,9 +20,9 @@ const Sidebar = () => {
               <span className="icon">👥</span>
               <span>Users</span>
             </Link> */}
-            <Link to="/admin/graphs" className="nav-item">
+            <Link to="/user/dashboard" className="nav-item">
               <span className="icon">📊</span>
-              <span>Graphs</span>
+              <span>Dashboard</span>
             </Link>
             {/* <div className="nav-item active">
               <span className="icon">🔌</span>
@@ -70,6 +70,6 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar; 
+export default UserSidebar; 
 
 

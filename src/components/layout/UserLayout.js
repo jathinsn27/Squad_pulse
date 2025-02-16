@@ -1,11 +1,11 @@
 import React from 'react';
-import Sidebar from '../sidebar/Sidebar';
+import UserSidebar from '../sidebar/UserSidebar';
 import { Outlet } from 'react-router-dom';
 
-const Layout = () => {
+const UserLayout = () => {
   return (
     <div className="layout">
-      <Sidebar />
+      <UserSidebar />
       <main className="main-content">
         <Outlet />
       </main>
@@ -13,4 +13,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default UserLayout;

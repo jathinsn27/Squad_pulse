@@ -5,27 +5,38 @@ import './styles/global.css';
 // import Dashboard from './components/Dashboard';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './components/layout/Layout';
-import Graphs from './components/graphs/Graphs';
+import Graphs from './components/admin/graphs/Graphs';
+import Dashboard from './components/user/dashboard/Dashboard';
+import UserLayout from './components/layout/UserLayout';
 
-function App() {
+// function App() {
+//    return (
+//      <Router>
+//       <Layout>
+//        <Routes>
+//          <Route path="/admin/graphs" element={<Graphs />} />
+//          <Route path="/user/dashboard" element={<Dashboard />} /> 
+//        </Routes>
+//        </Layout>
+//      </Router> 
+//    );
+//  }
+
+ function App() {
   return (
-    // <div className="app">
-    //   <Sidebar />
-    //   <main className="main-content">
-    //     <Dashboard />
-    //   </main>
     <Router>
-      <Layout>
       <Routes>
-        {/* <Route path="/" element={<Dashboard />} />
-        <Route path="/connections" element={<Connections />} />
-        <Route path="/users" element={<Users />} /> */}
-        <Route path="/graphs" element={<Graphs />} />
-        
+        {/* Admin routes with Admin Layout */}
+        <Route element={<Layout />}>
+          <Route path="/admin/graphs" element={<Graphs />} />
+        </Route>
+
+        {/* User routes with User Layout */}
+        <Route element={<UserLayout />}>
+          <Route path="/user/dashboard" element={<Dashboard />} />
+        </Route>
       </Routes>
-      </Layout>
     </Router>
-    // </div>
   );
 }
 
